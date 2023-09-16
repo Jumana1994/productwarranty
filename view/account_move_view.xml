@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!--    create warranty info after other information in invoice form view to record stock moves-->
+    <record id="view_warranty_info" model="ir.ui.view">
+        <field name="name">account.move.form</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='other_info']" position='after'>
+                <page string='Warranty Info' name="warranty_info">
+                    <xpath expr="//page[@name='warranty_info']" position='inside'>
+
+                        <field name="warranty_request_ids" widget="one2many_list" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                    </xpath>
+
+
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
+

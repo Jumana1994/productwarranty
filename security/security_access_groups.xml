@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <!--   Group  under which user groups and manager groups appear-->
+    <record model="ir.module.category" id="module_category_product_warranty">
+        <field name="name">Product warranty approval</field>
+        <field name="description">User access levels for warranty module</field>
+        <field name="sequence">10</field>
+    </record>
+    <!--    user groups-->
+    <record id="approval_user_access" model="res.groups">
+        <field name="name">User</field>
+        <field name="category_id" ref="module_category_product_warranty"/>
+<!--        <field name="implied_ids" eval="[(4, ref('approval_user_access'))]"/>-->
+
+    </record>
+    <!--    <manager groups-->
+    <record id="approval_manager_access" model="res.groups">
+        <field name="name">Manager</field>
+        <field name="category_id" ref="module_category_product_warranty"/>
+        <field name="implied_ids" eval="[(4, ref('approval_user_access'))]"/>
+    </record>
+    <!--    user confirm only-->
+    <record id="group_user_confirm" model="res.groups">
+        <field name="name">User - Confirm</field>
+        <field name="implied_ids" eval="[(4, ref('approval_user_access'))]"/>
+        <field name="implied_ids" eval="[(4, ref('approval_manager_access'))]"/>
+        <field name="users" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+<!--    user can see the documents created by him only-->
+    <record id="see_only_user_requests" model="ir.rule">
+        <field name="name">Change his own info</field>
+        <field name="model_id" ref="model_product_warranty_model"/>
+        <field name="domain_force">[('current_user.id', '=', user.id)]</field>
+<!--        <field name="domain_force">[(1, '=', 1)]</field>-->
+        <field name="groups" eval="[(4,ref('base.group_user'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+<!--    The manager can see all the requests created by him-->
+
+    <record id="see_all_created_requests" model="ir.rule">
+        <field name="name">See all created requests info</field>
+        <field name="model_id" ref="model_product_warranty_model"/>
+<!--        <field name="domain_force">[('current_user_id.id', '=', user.id)]</field>-->
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4,ref('approval_manager_access'))]"/>
+<!--        <field name="perm_read" eval="True"/>-->
+<!--        <field name="perm_write" eval="True"/>-->
+<!--        <field name="perm_create" eval="True"/>-->
+<!--        <field name="perm_unlink" eval="True"/>-->
+    </record>
+    <record id="see_all_requests" model="ir.rule">
+        <field name="name">Manager can see all requests</field>
+        <field ref="model_product_warranty_model" name="model_id"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="groups" eval="[(4, ref('approval_manager_access'))]"/>
+<!--        <field name="perm_read" eval="True"/>-->
+<!--        <field name="perm_write" eval="True"/>-->
+<!--        <field name="perm_create" eval="True"/>-->
+<!--        <field name="perm_unlink" eval="True"/>-->
+    </record>
+    <!--    The user can see the requests  created by all  users-->
+<!--    <record id="see_other_user_requests" model="ir.rule">-->
+<!--        <field name="name">Read all</field>-->
+<!--        <field name="model_id" ref="model_product_warranty_model"/>-->
+<!--        <field name="domain_force">[('current_user.id', '!=', user.id)]</field>-->
+<!--        <field name="groups" eval="[(4,ref('base.group_user'))]"/>-->
+<!--        <field name="perm_read" eval="True"/>-->
+<!--        <field name="perm_write" eval="True"/>-->
+<!--        <field name="perm_create" eval="True"/>-->
+<!--        <field name="perm_unlink" eval="False"/>-->
+<!--    </record>-->
+
+
+</odoo>

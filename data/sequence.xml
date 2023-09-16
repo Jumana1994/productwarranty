@@ -1,0 +1,13 @@
+<odoo>
+<!--sequence creation-->
+    <data>
+        <record id="seq_product_warranty" model="ir.sequence">
+            <field name="name">Warranty Sequence</field>
+            <field name="code">product.warranty.model</field>
+            <field name="prefix">WR</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+
+</odoo>

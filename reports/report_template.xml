@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_warranty">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <div class="oe_structure"/>
+                        <div class="text-center">
+                            <h1>Product Warranty</h1>
+                        </div>
+                        <div>
+
+                                <p>Printed date:
+                                    <span t-esc="current_date"/>
+                                </p>
+
+                            <t t-if="data['start_date']">
+                                <h6>Create date:
+                                    <span t-esc="data['start_date']"/>
+                                </h6>
+                            </t>
+                            <t t-if="data['product_ids']">
+                                <h6>Product:
+                                    <span t-esc="', '.join(products_name)"/>
+                                </h6>
+                            </t>
+                            <t t-if="data['customer_id']">
+                                <h6>Customer:
+                                    <span t-esc="data['customer_name']"/>
+                                </h6>
+                            </t>
+                            <t t-if="data['end_date']">
+                                <h6>End Date:
+                                    <span t-esc="data['end_date']"/>
+                                </h6>
+                            </t>
+
+                        </div>
+                        <div class="row">
+                            <table class="table table-condensed"
+                                   style="border: 3px">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align:left;">
+                                            <strong>Sequence Number</strong>
+                                        </th>
+                                        <th style="text-align:left;">
+                                            <strong>Request date</strong>
+                                        </th>
+                                        <t t-if="not product_ids or len(product_ids) > 1">
+                                            <th style="text-align:left;">
+                                                <strong>Product Name</strong>
+                                            </th>
+                                        </t>
+                                        <th style="text-align:left;">
+                                            <strong>Invoice Reference</strong>
+                                        </th>
+                                        <t t-if="not customer_id">
+                                            <th style="text-align:left;">
+                                                <strong>Customer</strong>
+                                            </th>
+                                        </t>
+                                        <th style="text-align:left;">
+                                            <strong>Warranty Expiration</strong>
+                                        </th>
+                                        <th style="text-align:left;">
+                                            <strong>State</strong>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set="current_customer_id"
+                                       t-value="data['customer_id']"/>
+                                    <t t-foreach="options" t-as="line">
+                                        <tr>
+                                            <td style="text-align:left;">
+                                                <span t-esc="line['name']"/>
+                                            </td>
+                                            <td style="text-align:left;">
+                                                <span t-esc="line['request_date']"/>
+                                            </td>
+                                            <t t-if="not product_ids or len(product_ids) > 1">
+                                                <td style="text-align:left;">
+                                                    <span t-esc="line['product_name']['en_US']"/>
+                                                </td>
+                                            </t>
+                                            <td style="text-align:left;">
+                                                <span t-esc="line['invoice_name']"/>
+                                            </td>
+                                            <t t-if="not customer_id">
+                                                <td style="text-align:left;">
+                                                    <span t-esc="line['customer_details_id']"/>
+                                                </td>
+                                            </t>
+                                            <td style="text-align:left;">
+                                                <span t-esc="line['warranty_exp_date']"/>
+                                            </td>
+                                            <td style="text-align:left;">
+                                                <span t-esc="line['states_label']"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>
